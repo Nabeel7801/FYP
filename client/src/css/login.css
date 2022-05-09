@@ -1,0 +1,107 @@
+@font-face {
+    font-family: Poppins-Regular;
+    src: url('../fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url('../fonts/poppins/Poppins-Medium.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Bold;
+    src: url('../fonts/poppins/Poppins-Bold.ttf');
+}
+
+@font-face {
+    font-family: Poppins-SemiBold;
+    src: url('../fonts/poppins/Poppins-SemiBold.ttf');
+}
+
+body {
+    height: 100vh;
+    overflow-y: hidden;
+    background-color: #eee;
+}
+
+main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginCard {
+    width: 350px;
+    padding: 30px 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 2px 1px 5px rgba(50, 50, 50, 0.7)
+}
+
+.mainHeader {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    font-family: Poppins-SemiBold, sans-serif, 'Open Sans';
+    padding: 5px;
+    color: #333;
+}
+
+.subHeading {
+    text-align: center;
+    font-size: 16px;
+    font-family: Poppins-Regular, sans-serif, 'Open Sans';
+    padding-bottom: 10px;
+    color: #333;
+}
+
+.loginCard>form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.loginCard label {
+    font-size: 14px;
+    font-family: Poppins-Regular, sans-serif, 'Open Sans';
+    padding-bottom: 5px;
+}
+
+#id_username,
+#id_password {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    font-size: 14px;
+    font-family: Poppins-Regular, sans-serif, 'Open Sans';
+}
+
+.loginCard button {
+    float: right;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 40%;
+    background-color: #228B22;
+    color: white;
+    font-weight: 400;
+    font-family: Poppins-SemiBold, sans-serif, 'Open Sans';
+}
+
+.loginCard button:hover {
+    background-color: #22BB22;
+}

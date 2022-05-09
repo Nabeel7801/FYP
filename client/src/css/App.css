@@ -1,0 +1,103 @@
+@font-face {
+    font-family: Poppins-Regular;
+    src: url("../fonts/poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url("../fonts/poppins/Poppins-Medium.ttf");
+}
+
+@font-face {
+    font-family: Poppins-Bold;
+    src: url("../fonts/poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
+    font-family: Poppins-SemiBold;
+    src: url("../fonts/poppins/Poppins-SemiBold.ttf");
+}
+
+:root {
+    --ratio: 0.8;
+    --ratioP: 80%;
+    --headerHeight: 50px;
+    --sideBarBg: #2A2A2A;
+    --activeSideBar: #35baf6;
+    --themeColor: #004979;
+}
+
+.inDevelopment {
+    height: 100vh;
+    line-height: 100vh;
+    text-align: center;
+    font-family: 'Poppins-Bold', sans-serif;
+}
+
+body {
+    position: relative;
+    height: 100vh;
+    overflow-y: hidden;
+    background-color: #eee;
+}
+
+#root {
+    height: 100vh;
+}
+
+#pageContainer {
+    display: flex;
+    width: 100%;
+}
+
+.defaultCursor {
+    cursor: default !important;
+}
+
+.fw700 {
+    font-weight: 700 !important;
+}
+
+.topButtonSection {
+    position: relative;
+    margin-left: 2.5%;
+    display: flex;
+    justify-content: flex-start;
+    height: 20px;
+}
+
+.topButtonDiv {
+    position: absolute;
+    top: -30px;
+}
+
+.topFuncBtn {
+    border-radius: 4px;
+    background-color: rgb(95, 95, 238);
+    box-shadow: 2px 1px 1px rgb(51, 51, 51, 0.6);
+    color: #fff;
+    font-size: 18px;
+    font-family: Poppins-Medium, sans-serif, "Open Sans";
+    border: none;
+    height: 45px;
+    width: 45px;
+    line-height: 45px;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+.topFuncBtn>i {
+    margin-right: 10px;
+    margin-left: 5px;
+    font-size: 24px;
+}
+
+.topFuncBtn:hover {
+    width: 180px;
+}
+
+.hidden {
+    display: none;
+}
