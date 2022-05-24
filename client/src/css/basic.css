@@ -138,6 +138,23 @@
     background-color: rgba(238, 238, 238, 0.5);
 }
 
+@media screen and (max-width: 575px) {
+    #topHeader>.profileArea {
+        width: 100px;
+    }
+    #topHeader .dropDown {
+        left: calc(-220px + 100px);
+        width: 220px;
+    }
+    #topHeader .dropDown>.option {
+        font-size: 1rem;
+        padding: 10px 5px;
+    }
+    .mx5p .form-group {
+        margin: 0 1rem 15px 1rem;
+    }
+}
+
 
 /* ---------------------------- Header ----------------------------  */
 
@@ -231,6 +248,7 @@ header {
 
 .breadcrumbs {
     padding-left: 10px;
+    white-space: nowrap;
 }
 
 .breadcrumbs>a,
@@ -256,8 +274,8 @@ header {
     zoom: var(--ratio);
     zoom: var(--ratioP);
     height: calc(100vh * (1 / var(--ratio)) - 2*var(--headerHeight) - 10px);
-    width: 60px;
-    min-width: 60px;
+    width: var(--menuWidth);
+    min-width: var(--menuWidth);
     padding-left: 5px;
     background-color: var(--sideBarBg);
     font-family: Poppins-Regular, sans-serif, "Open Sans";
@@ -265,6 +283,14 @@ header {
     overflow-x: hidden;
     transition: all 0.5s ease-in-out;
     scrollbar-width: thin
+}
+
+@media (max-width: 500px) {
+    #menu_section {
+        position: absolute;
+        left: 0;
+        z-index: 999;
+    }
 }
 
 *::-webkit-scrollbar {
@@ -1504,4 +1530,31 @@ progress[value]::-webkit-progress-value {
 .uploadButton:hover {
     background-color: #004979;
     color: white
+}
+
+
+/* ---------------- QR Genenrator ---------------- */
+
+.qrCodeGeneratorArea {
+    width: 100%;
+}
+
+.qrCodeGeneratorArea .courseInfo {
+    font-size: 1.4rem;
+    font-family: poppins-Medium, sans-serif;
+    line-height: 2.8rem;
+    padding-left: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.qrCodeGeneratorArea img {
+    display: block;
+    max-width: 500px;
+    max-height: 500px;
+    width: auto;
+    height: 500px;
+    margin: auto;
 }

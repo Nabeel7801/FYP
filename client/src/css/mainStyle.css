@@ -78,6 +78,10 @@
     border: 0 !important;
 }
 
+.br {
+    border-right: 1px solid rgb(187, 187, 187, 0.7) !important;
+}
+
 .bordertop {
     border-top: 1px solid #f4f4f4 !important;
 }
@@ -1481,23 +1485,6 @@ a.dt-button:hover {
 
 /* ----------- Mobile Styling -------------*/
 
-@media screen and (max-width: 575px) {
-    #topHeader>.profileArea {
-        width: 100px;
-    }
-    #topHeader .dropDown {
-        left: calc(-10rem + 100px);
-        width: 10rem;
-    }
-    #topHeader .dropDown>.option {
-        font-size: 1rem;
-        padding: 10px 5px;
-    }
-    .mx5p .form-group {
-        margin: 0 1rem 15px 1rem;
-    }
-}
-
 .databaseImgArea {
     position: relative;
     width: 60px;
@@ -1669,4 +1656,29 @@ a.dt-button:hover {
 
 .attendanceInfo>.row b {
     font-family: Poppins-SemiBold, sans-serif;
+}
+
+
+/* ---------------- Scanner Page ---------------- */
+
+.scannerPage {
+    height: 100%;
+    display: flex;
+    align-items: center
+}
+
+.scannerArea {
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    border: 5px solid red;
+}
+
+@media (max-width: 500px) {
+    .scannerArea {
+        width: 90%;
+        max-width: 500px;
+        margin: auto;
+        border: 2px solid red;
+    }
 }

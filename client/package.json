@@ -7,10 +7,12 @@
         "bootstrap": "^5.1.0",
         "jquery": "^3.6.0",
         "md5": "^2.3.0",
+        "qrcode": "^1.5.0",
         "react": "^17.0.2",
         "react-bootstrap": "^2.0.0-beta.6",
         "react-bootstrap-dropdown": "^0.3.0",
         "react-dom": "^17.0.2",
+        "react-qr-reader": "^3.0.0-beta-1",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.3",
         "web-vitals": "^1.1.2"

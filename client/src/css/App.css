@@ -25,6 +25,13 @@
     --sideBarBg: #2A2A2A;
     --activeSideBar: #35baf6;
     --themeColor: #004979;
+    --menuWidth: 60px;
+}
+
+@media (max-width: 500px) {
+     :root {
+        --menuWidth: 0px;
+    }
 }
 
 .inDevelopment {

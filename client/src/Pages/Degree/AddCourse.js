@@ -1,33 +1,30 @@
 import React from 'react'
-import axios from 'axios'
+import * as $ from 'jquery'
 import BoxHeader from '../../components/BoxHeader'
+import axios from 'axios'
 import DataTable from '../../components/DataTable'
 import PageComponent from '../../components/PageComponent'
 import Dialog from '../../components/Dialog'
 
-class ManageUsers extends PageComponent {
+class AddCourse extends PageComponent {
+
 
     state = {
         resetNewRow: {
-            _id: "",
-            Role: "",
-            Pages: []
+            CourseCode: "",
+            CourseName: "",
+            CreditHours: "",
+            CourseType: "",
         },
-        newTableRow: {
-            _id: "",
-            Role: "",
-            Pages: []
-        },
-        tableBodyList: [
+        newTableRow: {},
+        tableBodyList: [],
 
-        ],
-        checkPages: ["Dashboard", "Attendance", "ScanQRCode", "Faculty", "Students", "Degree", "Settings"],
         editingActivated: false,
         editingID: "",
         APIs: {
-            AddData: "addRole",
-            UpdateData: "updateRole",
-            DeleteData: "deleteRole"
+            AddData: "addCourse",
+            UpdateData: "updateCourse",
+            DeleteData: "deleteCourse"
         },
         dialogInfo: {
             isOpened: false,
@@ -38,16 +35,13 @@ class ManageUsers extends PageComponent {
 
     constructor(props) {
         super(props);
-
-
-        if (props.state.currentPage !== "Settings > Manage Roles") {
-            props.state.setCurrentPage("Settings > Manage Roles")
+        if (props.state.currentPage !== "Degree > Add Course") {
+            props.state.setCurrentPage("Degree > Add Course")
         }
     }
 
     componentDidMount() {
-        //Get All Roles
-        axios.get(`${this.props.state.ATLAS_URI}/getRoles/`)
+        axios.get(`${this.props.state.ATLAS_URI}/getCourses/`)
             .then(response => {
                 const responseData = response.data;
                 if (typeof responseData !== 'undefined') {
@@ -55,11 +49,8 @@ class ManageUsers extends PageComponent {
                         newTableRow: this.state.resetNewRow,
                         tableBodyList: responseData
                     })
-
                 }
-
             }).catch(err => console.log(err))
-
     }
 
     render() {
@@ -73,42 +64,31 @@ class ManageUsers extends PageComponent {
                         dialogInfo={this.state.dialogInfo}
                     />
                     <div className="col-md-5">
-
                         <div className="box box-primary">
-
-                            <BoxHeader title={`${this.state.editingActivated ? "Edit" : "Add"} Role`} />
-
+                            <BoxHeader title={`${this.state.editingActivated ? "Edit" : "Add"} Course`} />
                             <form onSubmit={this.insertIntoTable} autoComplete='off'>
-
                                 <div className="box-body bozero">
-
                                     <input type="hidden" name="ci_csrf_token" value="" />
-
                                     <div className="form-group">
-                                        <label >Role </label><small className="req"> *</small>
-                                        <input name="Role" value={this.state.newTableRow.Role} onChange={this.changeHandler} required type="text" className="form-control" />
+                                        <label >Course Code </label><small className="req"> *</small>
+                                        <input name="CourseCode" value={this.state.newTableRow.CourseCode} onChange={this.changeHandler} required type="text" className="form-control" />
                                     </div>
-
                                     <div className="form-group">
-                                        <label>Page Accessibility</label><small className="req"> *</small>
+                                        <label >Course Name </label><small className="req"> *</small>
+                                        <input name="CourseName" value={this.state.newTableRow.CourseName} onChange={this.changeHandler} required type="text" className="form-control" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label >Credit Hours </label><small className="req"> *</small>
+                                        <input name="CreditHours" value={this.state.newTableRow.CreditHours} onChange={this.changeHandler} required type="text" className="form-control" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Course Type</label> <small className="req"> *</small>
+                                        <select required className="form-control" name="CourseType" value={this.state.newTableRow.CourseType} onChange={this.changeHandler} >
+                                            <option value="">Select</option>
+                                            <option value="Compulsory">Compulsory</option>
+                                            <option value="Elective">Elective</option>
 
-
-                                        <div className="section_checkbox">
-                                            {typeof this.state.checkPages !== 'undefined' && typeof this.state.newTableRow.Pages !== 'undefined' &&
-                                                this.state.checkPages.map(page =>
-
-                                                    <div className="checkbox" key={page}>
-                                                        <label>
-                                                            <input type="checkbox" name="Pages" value={page}
-                                                                checked={this.state.newTableRow.Pages.includes(page)}
-                                                                required={this.state.newTableRow.Pages.length === 0}
-                                                                onChange={this.changeHandler} /> {page}
-                                                        </label>
-                                                    </div>
-                                                )}
-
-                                        </div>
-
+                                        </select>
                                     </div>
                                 </div>
                                 <div className="box-footer">
@@ -120,23 +100,18 @@ class ManageUsers extends PageComponent {
 
                     <div className="col-md-7">
                         <div className="box box-primary">
-
-                            <BoxHeader title="List of Added Roles" />
-
+                            <BoxHeader title="List of Added Courses" />
                             <div className="box-body">
-
                                 <DataTable
-                                    tableHeader={["_id", "Role", "Pages"]}
-                                    searchField="Role"
+                                    tableHeader={["_id", "Course Code", "Course Name", "Credit Hours", "Course Type"]}
+                                    searchField="CourseName"
                                     tableBody={this.state.tableBodyList}
                                     deleteFromTable={this.openDialog}
                                     editTableRow={this.editTableRow}
                                 />
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
         )
@@ -145,4 +120,4 @@ class ManageUsers extends PageComponent {
 
 }
 
-export default ManageUsers
+export default AddCourse

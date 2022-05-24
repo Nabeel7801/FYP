@@ -16,21 +16,21 @@ function SideBar(props) {
                     />
                 }
 
-                {props.pageAccessible.includes("Profile") &&
-                    <SideBarItem
-                        itemKey="1"
-                        title="Profile"
-                        icon="fas fa-user-alt"
-                        redirect="/profile"
-                    />
-                }
-
                 {props.pageAccessible.includes("Attendance") &&
                     <SideBarItem
-                        itemKey="2"
+                        itemKey="1"
                         title="Attendance"
                         icon="fab fa-autoprefixer"
                         redirect="/attendance"
+                    />
+                }
+                
+                {props.pageAccessible.includes("ScanQRCode") &&
+                    <SideBarItem
+                        itemKey="2"
+                        title="Scan QR Code"
+                        icon="fas fa-qrcode"
+                        redirect="/scanQRCode"
                     />
                 }
 
