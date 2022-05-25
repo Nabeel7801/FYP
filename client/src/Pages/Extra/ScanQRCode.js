@@ -32,6 +32,7 @@ function ScanQRCode(props) {
                     onError={handleErrorWebCamera}
                     onScan={handleScanWebCamera}
                     facingMode="environment"
+                    legacyMode={true}
                 />
             </div>
             

@@ -231,7 +231,7 @@ class MarkAttendance extends Component {
                     <QRCodeGenerator 
                         isOpened={this.state.QRCodeGeneratorOpened} 
                         closeModal={() => this.setState({QRCodeGeneratorOpened: false}) } 
-                        BACKEND_URI={this.props.state.BACKEND_URI}
+                        BACKEND_URI={this.props.state.ATLAS_URI}
                         courseData = {{
                             CourseCode: this.state.courseInfo.CourseCode,
                             AssignedCourseCode: this.state.assignedCourseID,

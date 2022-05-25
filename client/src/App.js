@@ -20,7 +20,7 @@ class App extends Component {
   state = {
 
     ATLAS_URI: "http://localhost:5000",
-    //ATLAS_URI: "http://192.168.18.128:5000",
+    //ATLAS_URI: "https://szabist.herokuapp.com",
     Institution: "SZABIST Karachi",
     operator: {
       Name: "",

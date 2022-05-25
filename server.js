@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv");
 const express = require("express")
 const cors = require("cors")
+const path = require("path");
 const connection = mongoose.connection
 
 dotenv.config();
@@ -28,6 +29,19 @@ app.use(require("./routes/courses"))
 app.use(require("./routes/degrees"))
 app.use(require("./routes/assignedCourses"))
 app.use(require("./routes/attendance"))
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/client/build")))
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    })
+
+} else {
+    app.get("/", (req, res) => {
+        res.send("Api Running")
+    })
+}
 
 const port = process.env.PORT || 5000
 
