@@ -23,11 +23,11 @@ router.get('/getEnrollmentByAssignedCourse/:AssignedCourse', (req, res) => {
 
 router.get('/getEnrollmentByAssignedCourseStudent/:AssignedCourse/:Student', (req, res) => {
     Enrollment.find({
-        AssignedCourse: { $in: req.params.AssignedCourse.split(",") },
+        AssignedCourse: req.params.AssignedCourse,
         Student: req.params.Student
-    })
-        .then(enrollments => res.json(enrollments))
-        .catch(err => res.status(400).json({ error: err }))
+    })  
+    .then(enrollments => res.json(enrollments))
+    .catch(err => res.status(400).json({ error: err }))
 })
 
 router.get('/getEnrollmentByStudent/:Student', (req, res) => {

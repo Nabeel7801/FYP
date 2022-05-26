@@ -53,12 +53,12 @@ class AssignCourse extends PageComponent {
         DegreeList: [],
         CoursesList: [],
         FacultyList: [],
-        DepartmentList: [{ _id: "001", Department: "CSE" }, { _id: "002", Department: "EE" }]
+        DepartmentList: [{ _id: "001", Department: "CS" }, { _id: "002", Department: "EE" }]
     }
 
     constructor(props) {
         super(props);
-        this.filterCourses = this.filterCourses.bind(this)
+
         if (props.state.currentPage !== "Faculty > Assign Course") {
             props.state.setCurrentPage("Faculty > Assign Course")
         }
@@ -188,19 +188,6 @@ class AssignCourse extends PageComponent {
 
     }
 
-    filterCourses() {
-
-        let degree = this.state.DegreeList.filter(degree => degree._id === this.state.newTableRow.Degree)[0]
-        if (typeof degree !== 'undefined' && this.state.newTableRow.Semester !== '') {
-
-            let semester = degree.Semester.filter(sem => sem.Semester === this.state.newTableRow.Semester)[0].Courses
-            const courses = this.state.CoursesList.filter((item) => semester?.includes(item._id));
-            return courses
-        }
-        else
-            return []
-    }
-
     render() {
 
         return (
@@ -261,7 +248,7 @@ class AssignCourse extends PageComponent {
                                     <SelectBox
                                         label="Course"
                                         name="Course"
-                                        options={this.filterCourses()}
+                                        options={this.state.CoursesList}
                                         attributeShown="Course"
                                         changeHandler={this.changeHandler}
                                         value={this.state.newTableRow.Course}

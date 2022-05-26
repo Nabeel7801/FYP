@@ -928,6 +928,19 @@ div.smallerModal {
     max-width: 70%;
 }
 
+@media screen and (max-width: 575px) {
+    div.modal-dialog {
+        width: 95%;
+        max-width: 95%;
+        margin: auto;
+    }
+    div.smallerModal {
+        width: 80%;
+        max-width: 80%;
+        margin: auto;
+    }
+}
+
 div.modal-content {
     max-height: 100vh;
 }
@@ -1557,4 +1570,10 @@ progress[value]::-webkit-progress-value {
     width: auto;
     height: 500px;
     margin: auto;
+}
+
+@media screen and (max-width: 575px) {
+    .qrCodeGeneratorArea img {
+        width: 100%;
+    }
 }

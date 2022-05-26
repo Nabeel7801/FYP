@@ -136,14 +136,17 @@ class MarkAttendance extends Component {
 
     uploadAttendance(e) {
         e.preventDefault();
-        axios.post(`${this.props.state.ATLAS_URI}/addAttendance`, this.state.attendance)
-        .then(response => {
-            const newDialogInfo = { isOpened: true, text: "Attendance Uploaded Successfully", type: "Success" }
-            this.setState({ dialogInfo: newDialogInfo, alreadyMarked: true })
-            setTimeout(() => {this.setState({dialogInfo: { isOpened: false, text: "", type: "" }})}, 3000)
+        const yes = window.confirm("Are you sure you want to upload the Manual Attendance?");
+        if (yes) {
+            axios.post(`${this.props.state.ATLAS_URI}/addAttendance`, this.state.attendance)
+            .then(response => {
+                const newDialogInfo = { isOpened: true, text: "Attendance Uploaded Successfully", type: "Success" }
+                this.setState({ dialogInfo: newDialogInfo, alreadyMarked: true })
+                setTimeout(() => {this.setState({dialogInfo: { isOpened: false, text: "", type: "" }})}, 3000)
+    
+            }).catch(err => console.log(err))
 
-        }).catch(err => console.log(err))
-
+        }
     }
 
     render() {
@@ -177,11 +180,12 @@ class MarkAttendance extends Component {
                         </div>
                         
                         <div className="row">
-                            <div className="col-4" style={{display: "flex"}}>
+                            <div className="col-8 col-md-4 mb10" style={{display: "flex"}}>
                                 <b>Date: </b> 
                                 <input id="attendanceDate" style={{margin: "0 20px"}} type="date" value={this.state.dateSelected} onChange={this.changeHandler} className="form-control"/>
                             </div>
-                            <div className="col-8">
+
+                            <div className="col-12 col-md-8">
                                 <button className="btn uploadButton" onClick={this.uploadAttendance} disabled={this.state.alreadyMarked}>
                                     {this.state.alreadyMarked ? "Attendance Marked" : "Upload Attendance"} 
                                 </button>

@@ -13,7 +13,7 @@ import { AddStudent, ListStudents } from './Pages/Students/Students'
 import { AddFaculty, ListFaculty, AssignCourse } from './Pages/Faculty/Faculty'
 import { AddDegree, ListDegrees, AddCourse } from './Pages/Degree/Degree'
 
-import { MarkAttendance, ScanQRCode } from './Pages/Extra/Extra'
+import { MarkAttendance, ScanQRCode, QRCodeAttendance } from './Pages/Extra/Extra'
 
 class App extends Component {
 
@@ -37,7 +37,15 @@ class App extends Component {
 
     currentPage: "Dashboard",
     setCurrentPage: page => {
-      this.setState({ currentPage: page });
+
+      let temp = (window.innerHeight <= 500 ) ? true : false;
+
+      this.setState({ 
+        currentPage: page,
+      });
+
+      //setTimeout(() => {this.setState({mobileHideMenu: false})}, 1000);
+
     }
   }
 
@@ -127,7 +135,10 @@ class App extends Component {
                                   }
                                 })
 
-                                this.setState({ StudentData: finalData })
+                                this.setState({ 
+                                  StudentData: finalData,
+                                  StudentID: studentData._id
+                                 })
 
                               }
                             }).catch(err => console.log(err))
@@ -138,8 +149,7 @@ class App extends Component {
             }
           }).catch(err => console.log(err))
 
-      } else {
-        console.log("User ID: " + this.state.operator.UserID);
+      } else if (this.state.operator.Role === 'Faculty') {
         //Get All Faculties
         axios.get(`${this.state.ATLAS_URI}/getFacultyByUserID/${this.state.operator.UserID}`)
           .then(faculty => {
@@ -171,7 +181,6 @@ class App extends Component {
                                 tempAssignedCourses.Degree = allDegreeData.filter(degree => degree._id === tempAssignedCourses.Degree)[0];
                                 return tempAssignedCourses
                               })
-
                               this.setState({ FacultyData: finalData })
                             }
 
@@ -251,12 +260,12 @@ class App extends Component {
     if (window.location.pathname === "/") {
       return <Login state={this.state} updateOperatorInfo={this.updateOperatorInfo} />
     }
-
+ 
     return (
       <React.Fragment>
         <Router>
           <TopHeader operator={this.state.operator} Institution={this.state.Institution} BACKEND_URI={this.state.ATLAS_URI} />
-          <Header currentPage={this.state.currentPage} />
+          <Header currentPage={this.state.currentPage} mobileHideMenu={this.state.mobileHideMenu} />
 
           <main id="pageContainer">
 
@@ -312,9 +321,12 @@ class App extends Component {
 
                   {/* --------------- Scan QR Code --------------- */}
                   {this.state.pageAccessible.includes("ScanQRCode") &&
-                    <Route path="/scanQRCode" exact component={() => <ScanQRCode state={this.state} />} />}
+                    <Route path="/scanQRCode" exact component={() => <ScanQRCode BACKEND_URI={this.state.ATLAS_URI} StudentID={this.state.StudentID} />} />}
                   
-
+                  {/* ---------------- QR Code Attendance -------------- */}
+                  {this.state.pageAccessible.includes("QRCodeAttendance") &&
+                    <Route path="/updateQRAttendance" exact component={() => <QRCodeAttendance state={this.state} />} />}
+                  
                   {/*--------------- Settings ---------------------*/}
 
                   {this.state.pageAccessible.includes("Settings") &&

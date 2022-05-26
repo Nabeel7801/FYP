@@ -37,7 +37,7 @@ class AddFaculty extends PageComponent {
         editingID: "",
 
         //Temporary
-        DepartmentList: [{ _id: "001", Department: "CSE" }, { _id: "002", Department: "EE" }]
+        DepartmentList: [{ _id: "001", Department: "CS" }, { _id: "002", Department: "EE" }]
     }
 
     constructor(props) {
@@ -53,13 +53,12 @@ class AddFaculty extends PageComponent {
     componentDidMount() {
         if (typeof this.props.state.EditDetailsData.id !== 'undefined' && this.props.state.EditDetailsData.id !== null) {
 
-            this.setState({ editingActivated: true })
             //Get Faculty with ID
             axios.get(`${this.props.state.ATLAS_URI}/getFacultyByID/${this.props.state.EditDetailsData.id}`)
                 .then(response => {
                     const responseData = response.data;
                     if (typeof responseData !== 'undefined' && responseData !== null) {
-                        this.setState({ newTableRow: responseData })
+                        this.setState({ newTableRow: responseData, editingActivated: true })
 
                     }
 
@@ -67,19 +66,6 @@ class AddFaculty extends PageComponent {
         } else {
             this.setState({ newTableRow: this.state.resetNewRow })
         }
-
-        //Get All Departments
-        axios.get(`${this.props.state.ATLAS_URI}/getDepartments/`)
-            .then(response => {
-                const responseData = response.data;
-                if (typeof responseData !== 'undefined') {
-                    this.setState({
-                        DepartmentList: responseData,
-                    })
-
-                }
-
-            }).catch(err => console.log(err))
 
         //Get All Subjects
         axios.get(`${this.props.state.ATLAS_URI}/getSubjects/`)
@@ -120,7 +106,7 @@ class AddFaculty extends PageComponent {
             newUser.Password = md5(tempPassword).substring(5, 25);
 
             const tempName = this.state.newTableRow.FacultyName.split(" ");
-            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0,1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase();
+            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0,1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase() + "@szabist.pk";
 
             axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
             .then(res => {
@@ -205,6 +191,7 @@ class AddFaculty extends PageComponent {
                                                         <select required className="form-control" name="FacultyDepartment" value={this.state.newTableRow.FacultyDepartment} onChange={this.changeHandler} >
                                                             <option value="">Select</option>
 
+                                                            {console.log(this.state.DepartmentList)}
                                                             {this.state.DepartmentList.map(x => {
                                                                 return <option value={x.Department}>{x.Department}</option>
                                                             })}

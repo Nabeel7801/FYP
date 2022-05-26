@@ -2,8 +2,6 @@ import React from 'react';
 
 function DashboardBox(props) {
 
-    console.log(props.course);
-
     if (props.user === "Faculty" && typeof props.course.Course === 'undefined') {
         return <div></div>
     }

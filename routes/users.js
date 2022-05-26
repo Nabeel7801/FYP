@@ -3,6 +3,10 @@ const router = express.Router();
 
 const Users = require("../models/usersSchema")
 
+router.get('/getServerTime', (req, res) => {
+    res.json({date: (new Date()).getTime()});
+})
+
 router.get('/getUsers', (req, res) => {
     Users.find()
         .then(users => res.json(users))

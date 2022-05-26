@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import profile from '../../img/profile.png'
 import axios from 'axios'
 import DashboardBox from '../../components/DashboardBox'
-import SlideShow from '../../components/SlideShow'
 
 class Dashboard extends Component {
 
@@ -15,6 +14,12 @@ class Dashboard extends Component {
         }
     }
 
+    constructor(props) {
+        super(props);
+        if (props.state.currentPage !== "Dashboard") {
+            props.state.setCurrentPage("Dashboard");
+        }
+    }
 
     componentDidMount() {
 
@@ -87,13 +92,13 @@ class Dashboard extends Component {
                                         <div className="studentInfo">
                                             <p><b>Academic standings:</b> Excellent</p>
                                             <p><b>Semester:</b> {this.state.studentInfo.Semester}</p>
-                                            <p><b>CGPA:</b> 3.91</p>
+                                            <p><b>CGPA:</b> 3.78</p>
                                         </div>
                                     </div>
 
                                     <div className="col-12 col-md-4">
                                         <div className="studentInfo">
-                                            <p><b>Completed Cr. / Total Cr :</b> 71.0 / 86</p>
+                                            <p><b>Completed Cr. / Total Cr :</b> 78.0 / 96.0</p>
                                             <p><b>Inprogress Cr :</b> 18.0</p>
                                         </div>
                                     </div>

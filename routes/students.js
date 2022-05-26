@@ -32,7 +32,7 @@ router.post('/addStudent', (req, res) => {
 
     Students.find()
         .then((students) => {
-            const id = students.length === 0 ? "000000000001" : ("000000000000" + String(parseInt(students[students.length - 1]._id) + 1)).slice(-12);
+            const id = students.length === 0 ? "00000001" : ("00000000" + String(parseInt(students[students.length - 1]._id) + 1)).slice(-8);
             const newStudent = new Students({
                 _id: id,
                 UserID: UserID,
@@ -43,30 +43,8 @@ router.post('/addStudent', (req, res) => {
                 Semester: Semester,
                 Email: Email,
                 Phone: Phone,
-                EmergencyContact: EmergencyContact,
-                PresentAddress: PresentAddress,
-                PermanentAddress: PermanentAddress,
-                DOB: DOB,
-                Gender: Gender,
-                CNIC: CNIC,
-                Domicile: Domicile,
-                Nationality: Nationality,
-                Religion: Religion,
-                BloodGroup: BloodGroup,
-                FatherName: FatherName,
-                FatherCNIC: FatherCNIC,
-                FatherPhone: FatherPhone,
-                GuardianName: GuardianName,
-                GuardianRelation: GuardianRelation,
-                GuardianCNIC: GuardianCNIC,
-                GuardianPhone: GuardianPhone,
-                GuardianOccupation: GuardianOccupation,
-                GuardianAddress: GuardianAddress,
-                City: City,
-                PostalCode: PostalCode,
                 Department: Department
             })
-
             newStudent.save()
                 .then(() => res.json({ id: id, addStatus: "Student Added" }))
 

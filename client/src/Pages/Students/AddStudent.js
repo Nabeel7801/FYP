@@ -38,7 +38,7 @@ class AddStudent extends PageComponent {
         //Temp
         ProgramList: [],
         institutionsList: ["Szabist Karachi", "Szabist Islamabad"],
-        DepartmentList: [{ _id: "001", Department: "CSE" }, { _id: "002", Department: "EE" }],
+        DepartmentList: [{ _id: "001", Department: "CS" }, { _id: "002", Department: "EE" }],
 
     }
 
@@ -131,21 +131,8 @@ class AddStudent extends PageComponent {
     addNewStudent(e) {
         e.preventDefault();
 
-        const formData = new FormData();
-        let updateWithoutImage = true;
-        if (this.state.newTableRow.ImageSelected && this.state.newTableRow.ImageSelected !== "") {
-            updateWithoutImage = false;
-            formData.append('ImageSelected', this.state.newTableRow.ImageSelected);
-        }
-        formData.append('Name', this.state.newTableRow.Name);
-        formData.append('Institution', this.state.newTableRow.Institution);
-        formData.append('Career', this.state.newTableRow.Career);
-        formData.append('Program', this.state.newTableRow.Program);
-        formData.append('Semester', this.state.newTableRow.Semester);
-        formData.append('Email', this.state.newTableRow.Email);
-        formData.append('Phone', this.state.newTableRow.Phone);
-        formData.append('Department', this.state.newTableRow.Department);
-
+        const tempData = this.state.newTableRow;
+        
         if (!this.state.editingActivated) {
 
             //Register Login for Student
@@ -155,24 +142,20 @@ class AddStudent extends PageComponent {
             newUser.Password = md5(tempPassword).substring(5, 25);
 
             const tempName = this.state.newTableRow.Name.split(" ");
-            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0, 1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase();
+            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0, 1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase() + "@szabist.pk";
 
             axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
                 .then(response => {
 
                     const responseData = response.data;
-                    formData.append('UserID', responseData.addedData._id)
-
-                    axios.post(`${this.props.state.ATLAS_URI}/addStudent/`, formData)
+                    tempData.UserID = responseData.addedData._id
+                    axios.post(`${this.props.state.ATLAS_URI}/addStudent/`, tempData)
                         .then(() => {
 
-                            if (response.status === 200) {
+                            const newDialogInfo = { isOpened: true, text: "Student Added Successfully", type: "Success" }
+                            this.setState({ newTableRow: this.state.resetNewRow, dialogInfo: newDialogInfo })
+                            setTimeout(() => { this.setState({ dialogInfo: { isOpened: false, text: "", type: "" } }) }, 3000)
 
-                                const newDialogInfo = { isOpened: true, text: "Student Added Successfully", type: "Success" }
-                                this.setState({ newTableRow: this.state.resetNewRow, dialogInfo: newDialogInfo })
-                                setTimeout(() => { this.setState({ dialogInfo: { isOpened: false, text: "", type: "" } }) }, 3000)
-
-                            }
                         })
                         .catch(err => alert(err))
 
@@ -180,8 +163,7 @@ class AddStudent extends PageComponent {
                 .catch(err => alert(err))
 
         } else {
-            let updateAPI = "updateStudentWithoutImage";
-            axios.post(`${this.props.state.ATLAS_URI}/${updateAPI}/` + this.props.state.EditDetailsData.id, updateWithoutImage ? this.state.newTableRow : formData)
+            axios.post(`${this.props.state.ATLAS_URI}/updateStudentWithoutImage/` + this.props.state.EditDetailsData.id, this.state.newTableRow)
                 .then(response => {
                     const responseData = response.data;
                     if (typeof responseData !== 'undefined' && responseData.PreviousImage !== "") {

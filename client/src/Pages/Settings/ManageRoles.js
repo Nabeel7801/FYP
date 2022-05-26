@@ -21,7 +21,7 @@ class ManageUsers extends PageComponent {
         tableBodyList: [
 
         ],
-        checkPages: ["Dashboard", "Attendance", "ScanQRCode", "Faculty", "Students", "Degree", "Settings"],
+        checkPages: ["Dashboard", "Attendance", "ScanQRCode", "QRCodeAttendance", "Faculty", "Students", "Degree", "Settings"],
         editingActivated: false,
         editingID: "",
         APIs: {

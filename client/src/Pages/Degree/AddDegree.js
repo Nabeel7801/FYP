@@ -57,7 +57,7 @@ class AddDegree extends PageComponent {
             CourseCode: "CS-300",
             CourseName: ""
         }],
-        DepartmentList: [{ _id: "001", Department: "CSE" }, { _id: "002", Department: "EE" }]
+        DepartmentList: [{ _id: "001", Department: "CS" }, { _id: "002", Department: "EE" }]
     }
 
     constructor(props) {

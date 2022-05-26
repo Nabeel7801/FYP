@@ -15,11 +15,13 @@ router.get('/getAttendanceByID/:id', (req, res) => {
         .catch(err => res.status(400).json({ error: err }))
 })
 
-router.post('/addAttendance', (req, res) => {
-    Attendance.insertMany(req.body)
-        .then(() => res.json({}))
-        .catch((err) => { res.status(500).json({ error: err }) })
-
+router.get('/getAttendanceByDateEnrollment/:AttendanceDate/:EnrollmentID', (req, res) => {
+    Attendance.find({
+        EnrollmentID: req.params.EnrollmentID,
+        Date: req.params.AttendanceDate
+    })
+    .then(enrollments => res.json(enrollments))
+    .catch(err => res.status(400).json({ error: err }))
 })
 
 router.get('/getAttendanceByEnrollment/:enrollment', (req, res) => {
@@ -34,14 +36,12 @@ router.get('/getAttendanceByDate/:date', (req, res) => {
         .catch(err => res.status(400).json({ error: err }))
 })
 
-
-
 router.post('/addAttendance', (req, res) => {
     Attendance.insertMany(req.body)
         .then(() => res.json({}))
         .catch((err) => { res.status(500).json({ error: err }) })
-
 })
+
 
 router.post('/updateAttendance/:id', (req, res) => {
     Attendance.findById(req.params.id)

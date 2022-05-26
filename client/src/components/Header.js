@@ -24,9 +24,15 @@ function Header(props) {
         }
     }, [menuOpen])
 
+    useEffect(() => {
+        if (props.mobileHideMenu) {
+            hideFullMenu();
+        }
+    }, [props.mobileHideMenu])
+
     
     const hideFullMenu = () => {
-        $("#menu_section").css({ "width": "var(--menuWidth)", "min-width": "60px", "padding-left": "5px" });
+        $("#menu_section").css({ "width": "var(--menuWidth)", "min-width": "var(--menuWidth)", "padding-left": "5px" });
         $(".navTitle").css({ "width": "0px", "padding-left": "0px" });
         $(".sideBarItem .accordion-button").addClass("collapsed");
         $(".sideBarItem .accordion-collapse").removeClass("show");
