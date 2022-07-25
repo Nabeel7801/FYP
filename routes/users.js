@@ -13,6 +13,15 @@ router.get('/getUsers', (req, res) => {
         .catch(err => res.status(400).json({ error: err }))
 })
 
+router.get('/getRegNo/:prefix', (req, res) => {
+    Users.findOne({}, {}, { sort: { '_id' : -1 } })
+        .then(user => {
+            const regNo = req.params.prefix + (!user ? "10001" : String(parseInt(user.Username) + 1).substring(1));
+            res.json(regNo)
+        })
+        .catch(err => res.status(400).json({ error: err }))
+})
+
 router.get('/getUserByUsername/:username', (req, res) => {
     Users.findOne({ Username: req.params.username })
         .then(client => res.json(client))

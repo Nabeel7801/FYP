@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as $ from 'jquery'
 import axios from 'axios';
 import md5 from 'md5';
+import Cryptr from 'cryptr';
 import Dialog from '../../components/Dialog'
 
 class Login extends Component {
@@ -10,12 +11,24 @@ class Login extends Component {
         dialogInfo: {
             isOpened: false,
             text: ""
-        }
+        },
+        SECRET_KEY: "HelloWorld"
     }
 
     constructor() {
         super();
         this.loginOperator = this.loginOperator.bind(this);
+    }
+
+    componentDidMount() {
+        const encryptedText = window.localStorage.getItem('temp');
+        if (encryptedText) {
+            const cryptr = new Cryptr(this.state.SECRET_KEY);
+            const regNo = cryptr.decrypt(encryptedText);
+            $("#username").val(regNo);
+            $("#username").attr('disabled', true);
+        }
+
     }
 
     loginOperator(e) {
@@ -30,26 +43,30 @@ class Login extends Component {
                 if (Password === md5($("#password").val()).substring(5, 25)) {
 
                     axios.get(`${this.props.state.ATLAS_URI}/getRoleByID/${Role}`)
-                        .then(role => {
-                            if (typeof role !== 'undefined') {
+                    .then(role => {
+                        if (typeof role !== 'undefined') {
 
-                                const roleData = role.data;
-                                const loginTime = this.getCurrentTime();
-                                const addedData = {UserID: _id, Name: Name, Username: Username, Role: roleData.Role, RoleID: Role, LoginTime: loginTime };
-                                
-                                axios.post(`${this.props.state.ATLAS_URI}/addLoginDetail/`, addedData)
-                                .then(response => {
-                                    if (response.status === 200) {
-                                        
-                                        addedData.LastLogin = loginTime;
+                            const roleData = role.data;
+                            const loginTime = this.getCurrentTime();
+                            const addedData = {UserID: _id, Name: Name, Username: Username, Role: roleData.Role, RoleID: Role, LoginTime: loginTime };
+                            
+                            axios.post(`${this.props.state.ATLAS_URI}/addLoginDetail/`, addedData)
+                            .then(response => {
+                                if (response.status === 200) {
+                                    
+                                    addedData.LastLogin = loginTime;
+                                    this.props.updateOperatorInfo(addedData);
 
-                                        this.props.updateOperatorInfo(addedData);
-                                        window.location.href = "/dashboard"
+                                    const cryptr = new Cryptr(this.state.SECRET_KEY);
+                                    const encryptedText = cryptr.encrypt(enteredUsername);
+                                    window.localStorage.setItem('temp', encryptedText);
 
-                                    }
-                                }).catch(err => alert(err))
-                            }
-                        }).catch(err => alert(err))
+                                    window.location.href = "/dashboard"
+
+                                }
+                            }).catch(err => alert(err))
+                        }
+                    }).catch(err => alert(err))
 
                 } else {
                     const newDialogInfo = { isOpened: true, text: "Incorrect Password", type: "Error" }
@@ -99,8 +116,8 @@ class Login extends Component {
                                 <br /><br />
 
                                 <div className="form-floating loginFormField">
-                                    <input type="email" className="form-control loginField" required id="username" placeholder="Email" />
-                                    <label>Email</label>
+                                    <input type="text" className="form-control loginField" required id="username" placeholder="Email" />
+                                    <label>Registration No</label>
                                     <i className="inputIcon fas fa-user"></i>
                                 </div>
 

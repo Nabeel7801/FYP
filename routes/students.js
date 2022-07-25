@@ -30,26 +30,27 @@ router.get('/getStudentByUserID/:userID', (req, res) => {
 router.post('/addStudent', (req, res) => {
     const { UserID, Name, Institution, Career, Program, Semester, Email, Phone, Department } = req.body;
 
-    Students.find()
-        .then((students) => {
-            const id = students.length === 0 ? "00000001" : ("00000000" + String(parseInt(students[students.length - 1]._id) + 1)).slice(-8);
-            const newStudent = new Students({
-                _id: id,
-                UserID: UserID,
-                Name: Name,
-                Institution: Institution,
-                Career: Career,
-                Program: Program,
-                Semester: Semester,
-                Email: Email,
-                Phone: Phone,
-                Department: Department
-            })
-            newStudent.save()
-                .then(() => res.json({ id: id, addStatus: "Student Added" }))
+    Students.findOne({}, {}, { sort: { '_id' : -1 } })
+    .then(student => {
 
-        }).catch((err) => { res.status(500).json({ error: err }) })
+        const id = !student ? "00000001" : ("00000000" + String(parseInt(student._id) + 1)).slice(-8);
+        const newStudent = new Students({
+            _id: id,
+            UserID: UserID,
+            Name: Name,
+            Institution: Institution,
+            Career: Career,
+            Program: Program,
+            Semester: Semester,
+            Email: Email,
+            Phone: Phone,
+            Department: Department
+        })
+        newStudent.save()
+            .then(() => res.json({ id: id, addStatus: "Student Added" }))
 
+    })
+    
 })
 
 

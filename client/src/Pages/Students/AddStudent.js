@@ -21,7 +21,6 @@ class AddStudent extends PageComponent {
             Email: "",
             Phone: "",
             Department: ""
-
         },
 
         newTableRow: {},
@@ -141,26 +140,33 @@ class AddStudent extends PageComponent {
             const tempPassword = "123";
             newUser.Password = md5(tempPassword).substring(5, 25);
 
-            const tempName = this.state.newTableRow.Name.split(" ");
-            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0, 1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase() + "@szabist.pk";
-
-            axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
+            axios.get(`${this.props.state.ATLAS_URI}/getRegNo/1`) 
+            .then(regNo => {
+                            
+                newUser.Username = regNo.data;
+                axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
                 .then(response => {
 
                     const responseData = response.data;
                     tempData.UserID = responseData.addedData._id
+
                     axios.post(`${this.props.state.ATLAS_URI}/addStudent/`, tempData)
                         .then(() => {
 
                             const newDialogInfo = { isOpened: true, text: "Student Added Successfully", type: "Success" }
                             this.setState({ newTableRow: this.state.resetNewRow, dialogInfo: newDialogInfo })
-                            setTimeout(() => { this.setState({ dialogInfo: { isOpened: false, text: "", type: "" } }) }, 3000)
+                            setTimeout(() => { 
+                                this.setState({ dialogInfo: { isOpened: false, text: "", type: "" } })
+                                window.location.replace("/Students/listStudents")
+                            }, 2000)
 
                         })
                         .catch(err => alert(err))
 
                 })
                 .catch(err => alert(err))
+
+            })
 
         } else {
             axios.post(`${this.props.state.ATLAS_URI}/updateStudentWithoutImage/` + this.props.state.EditDetailsData.id, this.state.newTableRow)

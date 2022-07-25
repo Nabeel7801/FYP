@@ -23,16 +23,17 @@ router.get('/getFacultyByUserID/:userID', (req, res) => {
 
 router.post('/addFaculty', (req, res) => {
     const { FacultyName, FacultyPhone, FacultyEmail, CNIC, UserID, FacultyDepartment, FacultyRank, DOB, Address, City, State, PostalCode } = req.body;
-    Faculty.find()
-        .then((faculty) => {
-            const id = faculty.length === 0 ? "000001" : ("000000" + String(parseInt(faculty[faculty.length - 1]._id) + 1)).slice(-6);
-            const newFaculty = new Faculty({ _id: id, FacultyName: FacultyName, FacultyPhone: FacultyPhone, FacultyEmail: FacultyEmail, CNIC: CNIC, UserID: UserID, FacultyDepartment: FacultyDepartment, FacultyRank: FacultyRank, DOB: DOB, Address: Address, City: City, State: State, PostalCode: PostalCode })
+    
+    Faculty.findOne({}, {}, { sort: { '_id' : -1 } })
+    .then(faculty => {
+        const id = !faculty ? "000001" : ("000000" + String(parseInt(faculty._id) + 1)).slice(-6);
+        const newFaculty = new Faculty({ _id: id, FacultyName: FacultyName, FacultyPhone: FacultyPhone, FacultyEmail: FacultyEmail, CNIC: CNIC, UserID: UserID, FacultyDepartment: FacultyDepartment, FacultyRank: FacultyRank, DOB: DOB, Address: Address, City: City, State: State, PostalCode: PostalCode })
 
-            newFaculty.save()
-                .then(() => res.json({ id: id, addStatus: "Faculty Added" }))
+        newFaculty.save()
+            .then(() => res.json({ id: id, addStatus: "Faculty Added" }))
 
-        }).catch((err) => { res.status(500).json({ error: err }) })
-
+    }).catch((err) => { res.status(500).json({ error: err }) })
+    
 })
 
 router.get('/getMultipleFaculty/:faculty', (req, res) => {

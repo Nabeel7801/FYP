@@ -20,7 +20,7 @@ function DashboardBox(props) {
 
                         <span><b>Credits: </b>{parseFloat(props.course.CourseData.CreditHours).toFixed(1)}</span>
                         <span className="courseStatus">Class in progress</span>
-                        <div><b>Attendance: </b>{props.course.attendancePercent}%</div>
+                        <div><b>Attendance: </b>{parseFloat(props.course.attendancePercent).toFixed(2)}%</div>
                     </div>
                     <span className="flag">
                         {Number(props.course.Semester) % 2 === 0 ? "Spring " + props.course.Year : "Fall " + props.course.Year

@@ -19,8 +19,8 @@ class App extends Component {
 
   state = {
 
-    ATLAS_URI: "http://localhost:5000",
-    //ATLAS_URI: "https://szabist.herokuapp.com",
+    //ATLAS_URI: "http://localhost:5000",
+    ATLAS_URI: "https://szabist.herokuapp.com",
     Institution: "SZABIST Karachi",
     operator: {
       Name: "",
@@ -95,14 +95,13 @@ class App extends Component {
         axios.get(`${this.state.ATLAS_URI}/getStudentByUserID/${this.state.operator.UserID}`)
           .then(student => {
             const studentData = student.data;
-
             if (typeof studentData !== 'undefined' && studentData !== null) {
 
               axios.get(`${this.state.ATLAS_URI}/getEnrollmentByStudent/${studentData._id}`)
                 .then(enrollment => {
 
                   const enrollmentData = enrollment.data;
-                  const searchAssignedCourse = (enrollmentData.map(x => { return x.AssignedCourse })).toString()
+                  const searchAssignedCourse = (enrollmentData.map(x => x.AssignedCourse )).toString()
 
                   if (typeof enrollmentData !== 'undefined' && enrollmentData !== null) {
 
@@ -112,7 +111,7 @@ class App extends Component {
                         const assignedData = assigned.data;
                         if (typeof assignedData !== 'undefined' && assignedData !== null) {
 
-                          const searchCourse = (assignedData.map(x => { return x.Course })).toString()
+                          const searchCourse = (assignedData.map(x => x.Course)).toString()
 
                           axios.get(`${this.state.ATLAS_URI}/getMultipleCourses/${searchCourse}`)
                             .then(allCourses => {
@@ -120,11 +119,9 @@ class App extends Component {
                               const allCourseData = allCourses.data;
                               if (typeof allCourseData !== 'undefined' && allCourseData !== null) {
 
-
                                 const finalData = []
-
                                 enrollmentData.forEach(enroll => {
-                                  const eAssignCourse = assignedData.filter(x => { return x._id === enroll.AssignedCourse && x.Semester === studentData.Semester.substring(0, 1) })[0]
+                                  const eAssignCourse = assignedData.filter(x => x._id === enroll.AssignedCourse && x.Semester === studentData.Semester.substring(0, 1))[0]
                                   if (typeof eAssignCourse !== 'undefined') {
                                     const eCourses = allCourseData.filter(x => x._id === eAssignCourse.Course)[0]
                                     enroll.Year = eAssignCourse.Year

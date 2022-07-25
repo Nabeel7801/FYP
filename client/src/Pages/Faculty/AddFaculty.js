@@ -104,27 +104,34 @@ class AddFaculty extends PageComponent {
             
             const tempPassword = "123";
             newUser.Password = md5(tempPassword).substring(5, 25);
+            
+            
+            axios.get(`${this.props.state.ATLAS_URI}/getRegNo/2`) 
+            .then(regNo => {
+                newUser.Username = regNo.data;
+                
+                axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
+                .then(res => {
+                    const newData = this.state.newTableRow;
+                    newData.UserID = res.data.addedData._id;
 
-            const tempName = this.state.newTableRow.FacultyName.split(" ");
-            newUser.Username = (tempName.length > 1 ? tempName[0].substring(0,1) + "_" + tempName[1] : tempName[0] + "_" + String(Date.now()).substring(3, 4)).toLowerCase() + "@szabist.pk";
+                    axios.post(`${this.props.state.ATLAS_URI}/addFaculty/`, newData)
+                    .then(response => {
+                        if (response.status === 200) {
 
-            axios.post(`${this.props.state.ATLAS_URI}/addUser/`, newUser)
-            .then(res => {
-                const newData = this.state.newTableRow;
-                newData.UserID = res.data.addedData._id;
+                            const newDialogInfo = { isOpened: true, text: "Faculty Added Successfully", type: "Success" }
+                            this.setState({ dialogInfo: newDialogInfo, newTableRow: this.state.resetNewRow })
+                            setTimeout(() => { 
+                                this.setState({ dialogInfo: { isOpened: false, text: "", type: "" } })
+                                window.location.replace("/Faculty/viewAllFaculty")
+                            }, 2000)
+                        }
+                    }).catch(err => alert(err))
 
-                axios.post(`${this.props.state.ATLAS_URI}/addFaculty/`, newData)
-                .then(response => {
-                    if (response.status === 200) {
-
-                        const newDialogInfo = { isOpened: true, text: "Faculty Added Successfully", type: "Success" }
-                        this.setState({ dialogInfo: newDialogInfo, newTableRow: this.state.resetNewRow })
-                        setTimeout(() => {this.setState({dialogInfo: { isOpened: false, text: "", type: "" }})}, 3000)
-
-                    }
                 }).catch(err => alert(err))
 
-            }).catch(err => alert(err))
+
+            })
 
         } else {
             axios.post(`${this.props.state.ATLAS_URI}/updateFaculty/` + this.props.state.EditDetailsData.id, this.state.newTableRow)
@@ -156,7 +163,7 @@ class AddFaculty extends PageComponent {
                                 <div className="box-body bozero mx2p">
 
                                     <input type="hidden" name="ci_csrf_token" value="" />
-
+                                    
                                     <div className="row">
 
                                         <div className="col-md-4">

@@ -14,7 +14,7 @@ const studentsSchema = new mongoose.Schema({
     Phone: { type: String, required: false },
     Department: { type: String, required: false },
     Image: { type: String, required: false },
-
+    RegistrationNo: {type: String, required: false}
 });
 
 const Students = mongoose.model("students", studentsSchema)

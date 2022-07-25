@@ -14,6 +14,7 @@ class ManageUsers extends PageComponent {
         resetNewRow: {
             Name: "",
             Username: "",
+            RegistrationNo: "",
             Password: "",
             Role: "Select"
         },
@@ -62,6 +63,7 @@ class ManageUsers extends PageComponent {
                             if (typeof rolesData !== 'undefined') {
 
                                 const newUsersData = usersData.map(user => {
+                                    user.RegistrationNo = user.Username;
                                     const temp = rolesData.filter(role => role._id === user.Role);
                                     if (temp.length !== 0) {
                                         user.Roles = temp[0].Role;
@@ -109,6 +111,7 @@ class ManageUsers extends PageComponent {
                             addedData.Role = "Select";
                             addedData.Roles = "";
                         }
+                        addedData.RegistrationNo = addedData.Username;
                         newTableBodyList.push(addedData);
 
                         this.setState(prevState => ({
@@ -140,6 +143,7 @@ class ManageUsers extends PageComponent {
                     addedData.Role = "Select";
                     addedData.Roles = "";
                 }
+                addedData.RegistrationNo = addedData.Username;
 
                 const newTableBodyList = this.state.tableBodyList.map(data =>
                     data._id === this.state.editingID ? addedData : data
@@ -183,7 +187,7 @@ class ManageUsers extends PageComponent {
                                     </div>
 
                                     <div className="form-group">
-                                        <label>Username </label><small className="req"> *</small>
+                                        <label>Registration No </label><small className="req"> *</small>
                                         <input name="Username" value={this.state.newTableRow.Username} onChange={this.changeHandler} required type="text" className="form-control" />
                                     </div>
 
@@ -226,7 +230,7 @@ class ManageUsers extends PageComponent {
                             <div className="box-body">
 
                                 <DataTable
-                                    tableHeader={["_id", "Name", "Username", "Password", "Roles"]}
+                                    tableHeader={["_id", "Name", "RegistrationNo", "Password", "Roles"]}
                                     searchField="Name"
                                     tableBody={this.state.tableBodyList}
                                     deleteFromTable={this.openDialog}

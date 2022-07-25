@@ -7,7 +7,6 @@ const usersSchema = new mongoose.Schema({
     PhoneNo: { type: String, required: false},
     Name: { type: String, required: false },
     Role: { type: String, required: false },
-
 });
 
 const Users = mongoose.model("users", usersSchema)

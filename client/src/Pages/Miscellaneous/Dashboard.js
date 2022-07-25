@@ -32,9 +32,9 @@ class Dashboard extends Component {
 
                 if (typeof responseData !== 'undefined') {
 
-                    const enrollments = (StudentData.map(x => { return x.EnrollmentID }).toString())
-                    
-                    axios.get(`${this.props.state.ATLAS_URI}/getAttendanceByEnrollment/${enrollments}`)
+                    const enrollments = (StudentData.map(x => x.EnrollmentID ).toString())
+                    if (enrollments) {
+                        axios.get(`${this.props.state.ATLAS_URI}/getAttendanceByEnrollment/${enrollments}`)
                         .then(attendance => {
                             const attendanceData = attendance.data;
 
@@ -49,6 +49,8 @@ class Dashboard extends Component {
                                 this.setState({ allCourses: Student, studentInfo: responseData })
                             }
                         }).catch(err => console.log(err))
+                    }
+                    
                 }
             }).catch(err => console.log(err))
             

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const facultySchema = new mongoose.Schema({
     _id: { type: String, required: false },
+    RegistrationNo: {type: String, required: false},
     FacultyName: { type: String, required: false },
     FacultyPhone: { type: String, required: false },
     FacultyEmail: { type: String, required: false },
